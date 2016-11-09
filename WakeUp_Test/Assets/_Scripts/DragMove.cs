@@ -2,31 +2,36 @@
 using System.Collections; 
 using UnityEngine.UI; 
 using UnityEngine.EventSystems; 
-public class UDragMove : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointerUpHandler { 
+public class DragMove : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointerUpHandler { 
 
 	//[SerializeField] GameObject grid = null;
 	GameObject InitCanvas = null;
 	GameObject Instead_gameObject = null;
 
 	void Start () {
-		InitCanvas = GameObject.Find ("Beibao").transform.Find ("InitCanvas").gameObject;
+		InitCanvas = GameObject.Find ("Bag").transform.Find ("InitCanvas").gameObject;
 	}
 
-	public void OnDrag(PointerEventData eventData) { //拖拽
+    //拖拽
+    public void OnDrag(PointerEventData eventData) { 
 		if (Input.GetMouseButton (0)) {
 			GetComponent<RectTransform>().pivot.Set(0,0); 
-			transform.position=Input.mousePosition; 
+			transform.position = Input.mousePosition; 
 		}
-	} 
-	public void OnPointerDown(PointerEventData eventData) { //鼠标按下
+	}
+
+    //鼠标按下
+    public void OnPointerDown(PointerEventData eventData) { 
 		if (Input.GetMouseButtonDown (0)) {
 			transform.localScale=new Vector3(0.7f,0.7f,0.7f); 
 			Instead_gameObject = transform.parent.gameObject;
 			transform.SetParent (InitCanvas.transform, true);
 			transform.GetComponent<CanvasGroup> ().blocksRaycasts = false;
 		}
-	} 
-	public void OnPointerUp(PointerEventData eventData) { //鼠标放开
+	}
+
+    //鼠标放开
+    public void OnPointerUp(PointerEventData eventData) { 
 		if (Input.GetMouseButtonUp (0)) {
 			transform.localScale = new Vector3 (1f, 1f, 1f);
 
@@ -41,9 +46,10 @@ public class UDragMove : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointer
 				transform_A.localPosition = Vector3.zero;
 				transform.SetParent (transform_B_parent);
 			}else{
-				transform.SetParent (Instead_gameObject.transform);//放回原位
+                //放回原位
+                transform.SetParent (Instead_gameObject.transform);
 			}
-			transform.GetComponent<CanvasGroup> ().blocksRaycasts = true;
+			//transform.GetComponent<CanvasGroup> ().blocksRaycasts = true;
 			transform.localPosition = Vector3.zero;
 		}
 	} 
